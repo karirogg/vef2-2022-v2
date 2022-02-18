@@ -157,18 +157,23 @@ const getSlug = async (req, res) => {
 
   const registrations = await getRegistrationsForEvent(event.id);
 
-  return res.render('edit-event', {
-    title: event.name,
-    description: event.description,
-    created: event.created,
-    updated: event.updated,
-    registrations,
-    errors: [],
-    formData: {
-      name: event.name,
+  try {
+    return res.render('edit-event', {
+      title: event.name,
       description: event.description,
-    },
-  });
+      created: event.created,
+      updated: event.updated,
+      registrations,
+      errors: [],
+      formData: {
+        name: event.name,
+        description: event.description,
+      },
+    });
+  } catch {
+    const title = 'Síða fannst ekki';
+    return res.status(404).render('error', { title });
+  }
 };
 
 adminRouter.get('/:slug', catchErrors(getSlug));
