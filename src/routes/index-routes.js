@@ -47,7 +47,8 @@ indexRouter.get('/:slug', async (req, res) => {
       errors: [],
     });
   } catch {
-    res.sendStatus(404);
+    const title = 'Síða fannst ekki';
+    res.status(404).render('error', { title });
   }
 });
 
