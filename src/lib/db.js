@@ -91,8 +91,6 @@ export async function editEvent({ name, description, oldSlug }) {
 
   const values = [name, createSlug(name), description, new Date(), oldSlug];
 
-  console.log(values);
-
   const result = await query(q, values);
 
   return result !== null;
@@ -108,6 +106,8 @@ export async function getEvent(slug) {
   const events = await query('SELECT * FROM public.events WHERE slug=$1', [
     slug,
   ]);
+
+  if (events.length === 0) return null;
 
   return events.rows[0];
 }
