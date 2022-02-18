@@ -1,6 +1,11 @@
 import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
-import dotenv from 'dotenv';
-import { createEvent, createSchema, dropSchema, end } from '../lib/db';
+import {
+  createEvent,
+  createSchema,
+  dropSchema,
+  end,
+  getEvent,
+} from '../lib/db';
 
 /**
  * Hér er test gagnagrunnur búinn til og hent áður en test eru keyrð.
@@ -10,7 +15,6 @@ import { createEvent, createSchema, dropSchema, end } from '../lib/db';
 
 describe('db', () => {
   beforeAll(async () => {
-    dotenv.config();
     await dropSchema();
     await createSchema();
   });
@@ -30,8 +34,8 @@ describe('db', () => {
 
     const createdEvent = await getEvent('test-event');
 
-    expect(createEvent.name).toBe('Test Event');
-    expect(createEvent.slug).toBe('test-event');
-    expect(createEvent.description).toBe('This is a test.');
+    expect(createdEvent.name).toBe('Test Event');
+    expect(createdEvent.slug).toBe('test-event');
+    expect(createdEvent.description).toBe('This is a test.');
   });
 });
