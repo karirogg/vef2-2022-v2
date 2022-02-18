@@ -2,4 +2,34 @@
 
 <h1><%= title %></h1>
 
+<ul>
+  <% for (const event of events) { %>
+    <li>
+      <a href="<%= `/${admin ? 'admin/' : ''}${event.slug}` %>"><h2><%= event.name %></h2></a>
+      <p><%- event.description %></p>
+    </li>
+  <% } %>
+</ul>
+
+<% if (admin) { %>
+  <form class="form" method="post" action="/admin/login" autocomplete="off">
+    <h2>Nýr viðburður</h2>
+    <div class="field">
+      <label for="name">Nafn</label>
+      <input type="text" name="name" id="name">
+    </div>
+
+    <div class="field">
+      <label for="description">Lýsing</label>
+      <textarea name="description" id="description"></textarea>
+    </div>
+
+    <% for (const err of errors) { %>
+      <p><%= err.msg %></p>
+    <% } %>
+
+    <button class="button">Búa til viðburð</button>
+  </form>
+<% } %>
+
 <%- include('footer') -%>

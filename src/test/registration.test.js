@@ -25,9 +25,7 @@ describe('registration', () => {
       },
     };
 
-    const registrationValidationMiddleware = []; // TODO Sækja á réttan stað
-
-    await applyAllMiddlewares(req, );
+    await applyAllMiddlewares(req, registrationValidationMiddleware);
 
     const validation = validationResult(req);
 
@@ -40,8 +38,6 @@ describe('registration', () => {
         name: '<script>alert(1)</script>',
       },
     };
-
-    const xssSanitizationMiddleware = []; // TODO Sækja á réttan stað
 
     await applyAllMiddlewares(req, xssSanitizationMiddleware);
 

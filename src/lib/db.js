@@ -1,5 +1,6 @@
 import { readFile } from 'fs/promises';
 import pg from 'pg';
+import { createSlug } from './utils.js';
 
 const SCHEMA_FILE = './sql/schema.sql';
 const DROP_SCHEMA_FILE = './sql/drop.sql';
@@ -62,3 +63,77 @@ export async function end() {
 }
 
 /* TODO útfæra aðgeðir á móti gagnagrunni */
+
+export async function createEvent({ name, description }) {
+  const q = `
+    INSERT INTO events
+      (name, slug, description, created, updated)
+    VALUES
+      ($1, $2, $3, $4, $5)
+    RETURNING *`;
+
+  const values = [name, createSlug(name), description, new Date(), new Date()];
+
+  const result = await query(q, values);
+
+  return result !== null;
+}
+
+export async function editEvent({ name, description, oldSlug }) {
+  const q = `
+    UPDATE events
+      SET name = $1,
+          slug = $2,
+          description = $3,
+          updated = $4
+    WHERE slug = $5;
+  `;
+
+  const values = [name, createSlug(name), description, new Date(), oldSlug];
+
+  console.log(values);
+
+  const result = await query(q, values);
+
+  return result !== null;
+}
+
+export async function listEvents() {
+  const events = await query('SELECT * FROM public.events');
+
+  return events.rows;
+}
+
+export async function getEvent(slug) {
+  const events = await query('SELECT * FROM public.events WHERE slug=$1', [
+    slug,
+  ]);
+
+  return events.rows[0];
+}
+
+export async function registerForEvent({ name, comment, eventID }) {
+  const q = `
+    INSERT INTO registrations
+      (name, comment, event, created)
+    VALUES
+      ($1, $2, $3, $4)
+    RETURNING *`;
+
+  const values = [name, comment, eventID, new Date()];
+
+  const result = await query(q, values);
+
+  return result !== null;
+}
+
+export async function getRegistrationsForEvent(eventID) {
+  const q = `
+    SELECT * FROM registrations
+      WHERE event=$1
+  `;
+
+  const registrations = await query(q, [eventID]);
+
+  return registrations.rows;
+}

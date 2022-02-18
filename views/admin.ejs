@@ -1,0 +1,10 @@
+<%- include('header') -%>
+
+<h1>Viðburðir</h1>
+<section>
+  <% for (const event of events) { %>
+    <h2><%= event.name %></h2>
+  <% } %>
+</section>
+
+<%- include('footer') -%>

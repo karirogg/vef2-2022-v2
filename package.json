@@ -29,7 +29,8 @@
     "express-validator": "^6.14.0",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
-    "pg": "^8.7.1",
+    "pg": "^8.7.3",
+    "psql": "^0.0.1",
     "xss": "^1.0.10"
   },
   "devDependencies": {
