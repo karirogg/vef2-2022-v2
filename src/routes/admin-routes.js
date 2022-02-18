@@ -16,8 +16,6 @@ export const adminRouter = express.Router();
 async function adminRoute(req, res) {
   const events = await listEvents();
 
-  console.log(events);
-
   res.render('index', {
     title: 'Viðburðalistinn',
     events,
