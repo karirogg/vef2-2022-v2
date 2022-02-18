@@ -9,11 +9,9 @@ import { indexRouter } from './routes/index-routes.js';
 
 dotenv.config();
 
-const {
-  PORT: port = 3000,
-  SESSION_SECRET: sessionSecret,
-  DATABASE_URL: connectionString,
-} = process.env;
+const { PORT: port = 3000, DATABASE_URL: connectionString } = process.env;
+
+const sessionSecret = 'J er á góðum';
 
 if (!connectionString) {
   console.error('Vantar connectionString í env');
