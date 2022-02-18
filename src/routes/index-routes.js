@@ -90,6 +90,8 @@ const register = async (req, res) => {
 
   const correspondingEvent = await getEvent(req.params.slug);
 
+  if (correspondingEvent === undefined) return res.send('Error!');
+
   const created = await registerForEvent({
     name,
     comment,

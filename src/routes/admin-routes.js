@@ -124,7 +124,7 @@ const patchEvent = async (req, res) => {
 };
 
 adminRouter.post(
-  '/admin',
+  '/',
   eventValidationMiddleware,
   validationResults,
   xssSanitizationEventMiddleware,
