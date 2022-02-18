@@ -37,6 +37,8 @@ indexRouter.get('/:slug', async (req, res) => {
     res.render('event', {
       title: event.name,
       description: event.description,
+      created: event.created,
+      updated: event.updated,
       registrations,
       formData: {
         name: '',
@@ -113,6 +115,8 @@ const register = async (req, res) => {
   return res.render('event', {
     title: correspondingEvent.name,
     description: correspondingEvent.description,
+    created: correspondingEvent.created,
+    updated: correspondingEvent.updated,
     registrations,
     formData: {
       name: '',
