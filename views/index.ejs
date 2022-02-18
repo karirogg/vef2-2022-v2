@@ -1,17 +1,27 @@
 <%- include('header') -%>
 
-<h1><%= title %></h1>
+<section>
+  <h1><%= title %></h1>
+</section>
 
-<ul>
-  <% for (const event of events) { %>
-    <li>
-      <a href="<%= `/${admin ? 'admin/' : ''}${event.slug}` %>"><h2><%= event.name %></h2></a>
-      <p><%- event.description %></p>
-    </li>
-  <% } %>
-</ul>
+<section>
+  <h2>Næstu viðburðir</h2>
+  <ul>
+    <% for (const event of events) { %>
+      <li>
+        <a href="<%= `/${event.slug}` %>"><h3><%= event.name %></h3></a>
+        <p><em><%- event.description %></em></p>
+        <% if (admin) { %>
+           <a href="<%= `/admin/${event.slug}` %>" >Breyta viðburði</a>
+        <% } %>
+      </li>
+    <% } %>
+  </ul>
+</section>
+
 
 <% if (admin) { %>
+  <section>
   <form class="form" method="post" action="/admin" autocomplete="off">
     <h2>Nýr viðburður</h2>
     <div class="field">
@@ -25,11 +35,21 @@
     </div>
 
     <% for (const err of errors) { %>
-      <p><%= err.msg %></p>
+      <p class="error-msg"><%= err.msg %></p>
     <% } %>
 
     <button class="button">Búa til viðburð</button>
   </form>
+  </section>
+
+  <section>
+    <p>Skráð/ur inn sem: admin</p>
+    <a href="/admin/logout">Skrá út</a>
+  </section>
+<% } else { %>
+  <section>
+    <a href="/admin/login">Skrá inn</a>
+  </section>
 <% } %>
 
 <%- include('footer') -%>

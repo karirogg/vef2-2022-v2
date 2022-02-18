@@ -12,9 +12,13 @@ import {
 export const indexRouter = express.Router();
 
 async function indexRoute(req, res) {
+  if (req.isAuthenticated()) {
+    return res.redirect('/admin');
+  }
+
   const events = await listEvents();
 
-  res.render('index', {
+  return res.render('index', {
     title: 'Viðburðasíðan',
     events,
     admin: false,
@@ -54,14 +58,14 @@ export const registrationValidationMiddleware = [
     .withMessage('Athugasemd má vera að hámarki 400 stafir'),
 ];
 
-export const xssSanitizationRegistrationMiddleware = [
+export const xssSanitizationMiddleware = [
   body('name').trim().escape(),
   body('comment').trim().escape(),
   body('name').customSanitizer((value) => xss(value)),
   body('comment').customSanitizer((value) => xss(value)),
 ];
 
-const registrationValidationResults = async (req, res, next) => {
+const validationResults = async (req, res, next) => {
   const { slug } = req.params;
   const displayedEvent = await getEvent(slug);
 
@@ -73,6 +77,8 @@ const registrationValidationResults = async (req, res, next) => {
     return res.render('event', {
       title: displayedEvent.name,
       description: displayedEvent.description,
+      created: displayedEvent.created,
+      updated: displayedEvent.updated,
       registrations,
       formData: {
         name: '',
@@ -119,7 +125,7 @@ const register = async (req, res) => {
 indexRouter.post(
   '/:slug',
   registrationValidationMiddleware,
-  registrationValidationResults,
-  xssSanitizationRegistrationMiddleware,
+  validationResults,
+  xssSanitizationMiddleware,
   register
 );

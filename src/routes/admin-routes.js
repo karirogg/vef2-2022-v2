@@ -152,25 +152,26 @@ adminRouter.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-adminRouter.get('/:slug', async (req, res) => {
+const getSlug = async (req, res) => {
   const event = await getEvent(req.params.slug);
+
   const registrations = await getRegistrationsForEvent(event.id);
 
-  try {
-    res.render('edit-event', {
-      title: event.name,
+  return res.render('edit-event', {
+    title: event.name,
+    description: event.description,
+    created: event.created,
+    updated: event.updated,
+    registrations,
+    errors: [],
+    formData: {
+      name: event.name,
       description: event.description,
-      registrations,
-      errors: [],
-      formData: {
-        name: event.name,
-        description: event.description,
-      },
-    });
-  } catch {
-    res.sendStatus(404);
-  }
-});
+    },
+  });
+};
+
+adminRouter.get('/:slug', catchErrors(getSlug));
 
 adminRouter.post(
   '/:slug',

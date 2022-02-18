@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import dotenv from 'dotenv';
 import express from 'express';
 import session from 'express-session';
@@ -65,6 +66,18 @@ function isInvalid(field, errors = []) {
 app.locals = {
   // TODO hjálparföll fyrir template
   isInvalid,
+};
+
+app.locals.formatDate = (str) => {
+  let date = '';
+
+  try {
+    date = format(str || '', 'dd.MM.yyyy');
+  } catch {
+    return '';
+  }
+
+  return date;
 };
 
 app.use('/admin', adminRouter);

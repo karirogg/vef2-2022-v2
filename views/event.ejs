@@ -1,33 +1,47 @@
 <%- include('header') -%>
 
-<h1><%= title %></h1>
-<p><%- description %></p>
+<section>
+  <h1><%= title %></h1>
+  <p><%- description %></p>
+  <p>Búið til: <%- formatDate(created) %></p>
+  <p>Síðast breytt: <%- formatDate(updated) %></p>
+</section>
 
+<section>
 <h2>Skráningar á viðburð</h2>
-<ul>
-  <% for (const registration of registrations) { %>
-    <li><%= registration.name %></li>
-  <% } %>
-</ul>
+  <ul>
+    <% for (const registration of registrations) { %>
+      <li>
+        <h3><%- registration.name %></h3>
+        <p><%- registration.comment %></p>
+      </li>
+    <% } %>
+  </ul>
+</section>
 
-<h2>Skráðu þig!</h2>
-<form class="form" method="post" autocomplete="off">
-  <div class="field">
-    <label for="name">Nafn</label>
-    <input type="text" name="name" value="<%= formData.name %>" id="name">
-  </div>
+<section>
+  <h2>Skráðu þig!</h2>
+  <form class="form" method="post" autocomplete="off">
+    <div class="field">
+      <label for="name">Nafn</label>
+      <input type="text" name="name" value="<%= formData.name %>" id="name">
+    </div>
 
-  <div class="field">
-    <label for="comment">Athugasemd</label>
-    <textarea name="comment" id="comment"><%= formData.comment %></textarea>
-  </div>
+    <div class="field">
+      <label for="comment">Athugasemd</label>
+      <textarea name="comment" id="comment"><%= formData.comment %></textarea>
+    </div>
 
-  <% for (const err of errors) { %>
-    <p><%= err.msg %></p>
-  <% } %>
+    <% for (const err of errors) { %>
+      <p><%= err.msg %></p>
+    <% } %>
 
-  <button class="button">Skrá mig</button>
-</form>
-<a href="/">Til baka</a>
+    <button class="button">Skrá mig</button>
+  </form>
+</section>
+
+<section class="bottom">
+  <a class="link-button" href="/">Til baka</a>
+</section>
 
 <%- include('footer') -%>

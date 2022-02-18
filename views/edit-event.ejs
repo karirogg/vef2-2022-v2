@@ -1,38 +1,49 @@
 <%- include('header') -%>
 
-<h1><%= title %></h1>
-<p><%= description %></p>
+<section>
+  <h1><%= title %></h1>
+  <p><%- description %></p>
+  <p>Búið til: <%- formatDate(created) %></p>
+  <p>Síðast breytt: <%- formatDate(updated) %></p>
+</section>
 
-<h2>Skráningar á viðburð</h2>
-<% if(registrations.length === 0) { %>
-  <p>Engar skráningar á viðburðinn</p>
-<% } else { %>
-  <ul>
-    <% for (const registration of registrations) { %>
-      <li><%= registration.name %></li>
-    <% } %>
-  </ul>
-<% } %>
-
-<h2>Breyta viðburði</h2>
-<form class="form" method="post" autocomplete="off">
-  <div class="field">
-    <label for="name">Nafn</label>
-    <input type="text" name="name" value="<%= formData.name %>" id="name">
-  </div>
-
-  <div class="field">
-    <label for="description">Lýsing</label>
-    <textarea name="description" id="description"><%= formData.description %></textarea>
-  </div>
-
-  <% for (const err of errors) { %>
-    <p><%= err.msg %></p>
+<section>
+  <h2>Skráningar á viðburð</h2>
+  <% if(registrations.length === 0) { %>
+    <p>Engar skráningar á viðburðinn</p>
+  <% } else { %>
+    <ul>
+      <% for (const registration of registrations) { %>
+        <li><%= registration.name %></li>
+      <% } %>
+    </ul>
   <% } %>
+</section>
 
-  <button class="button">Breyta viðburði</button>
-</form>
+<section>
+  <form class="form" method="post" autocomplete="off">
+    <h2>Breyta viðburði</h2>
 
-<a href="/admin">Til baka</a>
+    <div class="field">
+      <label for="name">Nafn</label>
+      <input type="text" name="name" value="<%= formData.name %>" id="name">
+    </div>
+
+    <div class="field">
+      <label for="description">Lýsing</label>
+      <textarea name="description" id="description"><%= formData.description %></textarea>
+    </div>
+
+    <% for (const err of errors) { %>
+      <p><%= err.msg %></p>
+    <% } %>
+
+    <button class="button">Breyta viðburði</button>
+  </form>
+</section>
+
+<section class="bottom">
+  <a href="/admin">Til baka</a>
+</section>
 
 <%- include('footer') -%>
