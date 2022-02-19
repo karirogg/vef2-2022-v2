@@ -34,7 +34,7 @@ describe('db', () => {
 
     const createdEvent = await getEvent('test-event');
 
-    expect(createdEvent.name).toBe('Test Event');
+    expect(createdEvent.name).toBe('Test event');
     expect(createdEvent.slug).toBe('test-event');
     expect(createdEvent.description).toBe('This is a test.');
   });
